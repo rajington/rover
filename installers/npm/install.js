@@ -3,7 +3,7 @@
 const { install } = require("./binary");
 install();
 
-// use setTimeout so the message prints after the install happens.zzs
+// use setTimeout so the message prints after the install happens.
 setTimeout(() => {
   // these messages are duplicated in `src/command/install/mod.rs`
   // for the curl installer.
