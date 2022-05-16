@@ -206,6 +206,7 @@ impl Rover {
             }
             Command::Info(command) => command.run(),
             Command::Explain(command) => command.run(),
+            Command::Router(command) => command.run(),
         }
     }
 
@@ -337,6 +338,9 @@ pub enum Command {
 
     /// Explain error codes
     Explain(command::Explain),
+
+    /// Router subcommands
+    Router(command::Router),
 }
 
 #[derive(Debug, Serialize, Clone, PartialEq)]
