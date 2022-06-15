@@ -1,0 +1,47 @@
+// this file was initially created by `rover subgraph init`
+// and over time, developers ran commands like:
+// `rover subgraph publish --variant prod`, which added the prod variant to this file
+// `rover default set --endpoint "https://internal.docker.service/graphql" added the default endpoint
+// running `rover subgraph fetch` in this repository without any flags would fetch the latest schema associated with
+// "my-supergraph@current" and place it at ./schema.graphql
+// you could run `rover subgraph fetch --variant prod` to replace ./schema.graphql with the prod schema instead
+// running `rover subgraph publish` would take the current state of ./schema.graphl and publish it to `my-supergraph@current`
+subgraph {
+  supergraph "my-supergraph"
+  name "rust-subgraph"
+  schema "./schema.graphql"
+  readme "./graph-readme.md"
+  // you can override default CLI flags/arguments
+  // by running `rover default set --endpoint https://internal.docker.service/graphql
+  default {
+    client-timeout-seconds 60
+    endpoint "https://internal.docker.service/graphql"
+    validation-period "1w"
+    vcs {
+      remote-url "https://github.com/apollographql/rover"
+    }
+  }
+  // all variants published to Apollo Studio are here
+  variants {
+    variant "current"
+    variant "prod" {
+      profile "prod"
+      client-timeout-seconds 200
+      validation-period "1m"
+      vcs {
+        branch "main"
+      }
+    }
+    variant "staging" {
+      profile "staging"
+      validation-period "1m"
+      vcs {
+        branch "staging"
+      }
+    }
+  }
+  // settings for localhost introspection go here
+  dev {
+    endpoint "http://localhost:4000/graphql"
+  }
+}
